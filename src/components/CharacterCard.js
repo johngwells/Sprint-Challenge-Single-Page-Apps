@@ -5,7 +5,6 @@ export default function CharacterCard({ name, image}) {
     <div>
       <img src={image} alt='rick & morty characters'/>
       <p>Name: {name}</p>
-
     </div>
   );
 }

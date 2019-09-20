@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 
 import CharacterCard from './CharacterCard';
+import SearchForm from './SearchForm';
 
 // https://rickandmortyapi.com/api/character/
 
 export default function CharacterList() {
   // TODO: Add useState to track data from useEffect
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState('');
+
   useEffect(() => {
     // TODO: Add API Request here - must run in `useEffect`
     //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
@@ -21,11 +24,25 @@ export default function CharacterList() {
       .catch(err => {
         console.log('No data return', err);
       })
-  }, []);
+  }, [search]);
+
+  const handleChange = (event) => {
+    setSearch(event.target.value);
+  }
+
+  const filteredCharacters = () => {
+    data.filter(character => {
+      character.name.toLowerCase().includes(search.toLowerCase())
+    });
+  }
 
   return (
     <section className="character-list">
       <h2>Characters</h2>
+      <SearchForm
+        placeholder='search characters'
+        handleChange={handleChange}
+      />
       {data.map(character => (
         <CharacterCard
           key={character.id}
@@ -33,6 +50,7 @@ export default function CharacterList() {
           image={character.image}
         />
       ))}
+      <CharacterCard search={filteredCharacters} />
     </section>
   );
 }
