@@ -15,7 +15,7 @@ export default function CharacterList() {
     // TODO: Add API Request here - must run in `useEffect`
     //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
     Axios
-      .get('https://rickandmortyapi.com/api/character/')
+      .get(`https://rickandmortyapi.com/api/character/?name=${search}`)
       .then(res => {
         console.log(res);
         const characters = res.data.results;
@@ -27,13 +27,13 @@ export default function CharacterList() {
   }, [search]);
 
   const handleChange = (event) => {
+    event.preventDefault();
     setSearch(event.target.value);
   }
 
-  const filteredCharacters = () => {
-    data.filter(character => {
-      character.name.toLowerCase().includes(search.toLowerCase())
-    });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(`submitting Name: ${search}`)
   }
 
   return (
@@ -41,7 +41,9 @@ export default function CharacterList() {
       <h2>Characters</h2>
       <SearchForm
         placeholder='search characters'
+        value={search}
         handleChange={handleChange}
+        handleSubmit={handleSubmit}
       />
       {data.map(character => (
         <CharacterCard
@@ -50,7 +52,6 @@ export default function CharacterList() {
           image={character.image}
         />
       ))}
-      <CharacterCard search={filteredCharacters} />
     </section>
   );
 }
