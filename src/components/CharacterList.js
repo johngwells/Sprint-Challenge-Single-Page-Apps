@@ -38,7 +38,7 @@ export default function CharacterList() {
 
   return (
     <section className="character-list">
-      <h2>Characters</h2>
+      <h2></h2>
       <SearchForm
         placeholder='search characters'
         value={search}
